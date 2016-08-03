@@ -17,29 +17,30 @@ class Rest(object):
         self._auth = None
 
     def _createUrl(self, path, args):
+        pass
+
+    def _decodeJson(self, text):
+        pass
 
     def _getSession(self):
         if self._session is None:
             requestsSession = requests.Session()
             # Add authentication here
+        return self._session
 
-    def _restGetOperation(self, url, returnedClass):
+    def _restGetOperation(self, url):
     	try:
             response = self._session.get(url, auth = self._auth, headers=self._headers, timeout=self._timeout)
         except requests.exceptions.Timeout as e:
             restLogger.warn("Request for " + url + " exceeded " + self._timeout)
-        CoreSession._raise_for_status(response)
         returnedObject = self._decodeJson(response.text)
-        if returnedClass is not None:
-            if not isinstance(returnedObject, returnedClass):
-                raise Exception("Expected {0} type but found {1}".format(returnedClass.__name__, returnedObject.__class__.__name__))
         return returnedObject
 
     def _raise_for_status(response):
         try:
             response.raise_for_status()
-        except HTTPError as original_error:
-
+        except HTTPError as e:
+            restLogger.warn("Request returned an HTTPError " + str(e))
 
     def get(self, path, *args):
         url = self._createUrl(path=path, args=args)
