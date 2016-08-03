@@ -6,6 +6,6 @@ setup(name='py3example',
       url='http://github.com/kholohan/py3example',
       author='Kyle Holohan',
       author_email='kholohan@gmail.com',
-      license='MIT',
+      license='Apache',
       packages=['py3example'],
       zip_safe=True)
